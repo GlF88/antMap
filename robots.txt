@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Host: todo.iadlab.ru

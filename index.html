@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script> -->
+    <link rel="stylesheet" href="css/bundle.min.css" media="screen" title="no title" charset="utf-8">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
+    <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
+    <script src="http://code.angularjs.org/angular-resource-1.0.0rc5.min.js"></script>
+    <script type="text/javascript" src="https://api-maps.yandex.ru/2.0/?load=package.standard,package.geoObjects&lang=ru-RU"></script>
+    <script src="js/script.js"></script>
+    <script src="js/yamaps.js"></script>
+  </head>
+  <body ng-app="app">
+    <div class="" ng-controller="homeCtrl">
+      <ul>
+        <li ng-repeat="task in tasks | filter:search | orderBy:'name'">name: {{task.name}}, comment: {{task.comment}} coordinate: {{task.coordinateX}}, {{task.coordinateY}}<a ng-click="del(task._id.$oid)">X</a></li>
+      </ul>
+      <form class="" name="myForm" method="post">
+        <label>Вид</label>
+        <input type="text" name="name" ng-model="sender.name" required>
+        <label>Комментарий</label>
+        <textarea type="text" name="comment" ng-model="sender.comment"></textarea>
+        <label>Координаты</label>
+        <input type="text" id="inputCoorX" name="coordinateX" ng-model="sender.coordinateX" required>
+        <input type="text" id="inputCoorY" name="coordinateY" ng-model="sender.coordinateY" required>
+        <button ng-click="send()" class="btn btn-primary">Save</button>
+      </form>
+      <input type="checkbox" name="" ng-model="addPlacemarkCheck.check" value=""> {{data.check}}
+      <div id="map" style="width:100%;"></div>
+    </div>
+  </body>
+</html>
