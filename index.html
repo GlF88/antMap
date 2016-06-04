@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <!-- <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script> -->
+    <!-- Compiled and minified CSS -->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
     <link rel="stylesheet" href="css/bundle.min.css" media="screen" title="no title" charset="utf-8">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
     <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
     <script src="http://code.angularjs.org/angular-resource-1.0.0rc5.min.js"></script>
     <script type="text/javascript" src="https://api-maps.yandex.ru/2.0/?load=package.standard,package.geoObjects&lang=ru-RU"></script>
@@ -15,8 +17,97 @@
     <script src="js/yamaps.js"></script>
   </head>
   <body ng-app="app">
-    <div class="" ng-controller="homeCtrl">
-      <ul>
+    <div class="" ng-controller="homeCtrl" style="height: 100%;">
+      <div class="wrapper-progress valign-wrapper">
+        <div class="progress valign">
+          <div class="indeterminate"></div>
+        </div>
+      </div>
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo right"><i class="material-icons">room</i></a>
+          <!-- <a href="#modalDelete" class="modalDelete right">удалить тест</a> -->
+          <ul class="left hide-on-med-and-down">
+            <li><a href="#modal1" id="open-modal-place" onclick="Materialize.toast('Нажмите на участок где обитают муравьи', 4000)" ng-click="addPlacemarkCheckFunc()"> <i class="left material-icons">add</i> Добавить метку</a></li>
+            <li><a href="#modal2" class="modalLink"><i class="left material-icons">open_in_new</i>Полезные ссылки</a></li>
+            <li><a href="#" class="modalAbout"><i class="left material-icons">supervisor_account</i>О проекте</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="modalDelete" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h4>Modal Header</h4>
+          <ul>
+            <li ng-repeat="task in tasks | filter:search | orderBy:'name'">name: {{task.name}}, comment: {{task.comment}} coordinate: {{task.coordinateX}}, {{task.coordinateY}}<a ng-click="del(task._id.$oid)">X</a></li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn">Agree</a>
+        </div>
+      </div>
+
+      <div id="modal1" class="modal">
+          <div class="modal-content">
+            <h4>Добавить метку</h4>
+            <form class="" action="" method="post">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="password" name="name" ng-model="sender.name" type="text" class="validate" required>
+                  <label for="password">Вид</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="password" name="comment" ng-model="sender.comment" type="text" class="validate" required>
+                  <label for="textarea1">Комментарий</label>
+                </div>
+              </div>
+              <label style="margin-left: 10px;position: relative;top: 20px;">  Координаты, время добавления метки </label>
+              <div class="row">
+                <div class="input-field col s4">
+                  <input type="text" id="inputCoorX" name="coordinateX" ng-model="sender.coordinateX" disabled class="ng-pristine ng-valid">
+                </div>
+                <div class="input-field col s4">
+                  <input type="text" id="inputCoorY" name="coordinateY" ng-model="sender.coordinateY"  disabled>
+                </div>
+                <div class="input-field col s4">
+                  <input type="text" id="time" name="time" ng-model="sender.time"  disabled>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" ng-click="send();" class=" modal-action modal-close waves-effect waves-green btn-flat">Отправить</a>
+            <a href="#!" ng-click="addPlacemarkCheckFunc()" class=" modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
+          </div>
+      </div>
+
+      <div id="modalLink" class="modal">
+          <div class="modal-content">
+            <h4>Полезные сслыки</h4>
+                  <ul class="collection">
+                    <li class="collection-item dismissable"><div>Antclub.org<a href="http://antclub.org"target="_blank"  class="secondary-content"><i class="material-icons">open_in_new</i></a></div></li>
+                    <li class="collection-item dismissable"><div>Antclub.ru<a href="http://antclub.ru" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div></li>
+                    <li class="collection-item dismissable"><div>Group in vk.com: vk.com/antclub<a href="http://vk.com/antclub" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div></li>
+                  </ul>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
+          </div>
+      </div>
+
+      <div id="modalAbout" class="modal">
+          <div class="modal-content">
+            <h4>О проекте </h4>
+            Данный сервис был создан для поиска нужных вам видов муравьев
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
+          </div>
+      </div>
+
+      <!-- <ul>
         <li ng-repeat="task in tasks | filter:search | orderBy:'name'">name: {{task.name}}, comment: {{task.comment}} coordinate: {{task.coordinateX}}, {{task.coordinateY}}<a ng-click="del(task._id.$oid)">X</a></li>
       </ul>
       <form class="" name="myForm" method="post">
@@ -28,9 +119,9 @@
         <input type="text" id="inputCoorX" name="coordinateX" ng-model="sender.coordinateX" required>
         <input type="text" id="inputCoorY" name="coordinateY" ng-model="sender.coordinateY" required>
         <button ng-click="send()" class="btn btn-primary">Save</button>
-      </form>
-      <input type="checkbox" name="" ng-model="addPlacemarkCheck.check" value=""> {{data.check}}
-      <div id="map" style="width:100%;"></div>
+      </form> -->
+      <!-- <input type="checkbox" name="" ng-model="addPlacemarkCheck.check" value=""> {{data.check}} -->
+      <div id="map" style="width:100%; height: 100%"></div>
     </div>
   </body>
 </html>
